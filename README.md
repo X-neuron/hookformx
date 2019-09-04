@@ -1,7 +1,7 @@
 # hookformx
 
 Using [Schema-Typed](https://github.com/rsuite/schema-typed) for data modeling ,Using React hook for Building material forms.
-
+<img src="https://i.loli.net/2019/09/04/qw8Xkdy9UgDs4OM.gif" />
 ## Installation
 
 ```
@@ -40,7 +40,7 @@ console.log(checkResult);
 
 ```js
 const login = () => {
-  const { useInput, isValid } = useFormx({
+  const { useInput, isValid,values,errors } = useFormx({
     account:'test',
     pwd:'test'
     }, loginFormSchema,() = {
@@ -65,9 +65,9 @@ const login = () => {
     handleSubmit //callback function when the form submit
   }
   ```
-
+the return useInput is :
 ```js
-  the return useInput is :{
+{
     value,          // field value
     required,       // required?
     defaultValue,   // default field value
