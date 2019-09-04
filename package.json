@@ -1,14 +1,8 @@
 {
   "name": "hookformx",
-<<<<<<< HEAD
-  "version": "0.0.2",
-  "description": "using shecma-typed and react hook to build material form",
-  "main": "index.js",
-=======
   "version": "0.0.8",
   "description": "using shecma-typed and react hook to build material form",
   "main": "lib/index.js",
->>>>>>> update
   "scripts": {
     "compile": "./node_modules/.bin/babel -d lib/ src/",
     "prepublish": "cnpm run compile",
@@ -16,11 +10,7 @@
   },
   "repository": {
     "type": "git",
-<<<<<<< HEAD
-    "url": "git+https://github.com/X-neuron/hookFormX.git"
-=======
     "url": "git+https://github.com/X-neuron/hookformx.git"
->>>>>>> update
   },
   "keywords": [
     "react",
@@ -33,15 +23,9 @@
   "author": "X-neuron",
   "license": "ISC",
   "bugs": {
-<<<<<<< HEAD
-    "url": "https://github.com/X-neuron/hookFormX/issues"
-  },
-  "homepage": "https://github.com/X-neuron/hookFormX#readme",
-=======
     "url": "https://github.com/X-neuron/hookformx/issues"
   },
   "homepage": "https://github.com/X-neuron/hookformx#readme",
->>>>>>> update
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
