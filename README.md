@@ -1,21 +1,21 @@
-# schema-typed
+# hookformx
 
-Using Schema-typed for data modeling ,Using React hook for Building material forms.
+Using [Schema-Typed](https://github.com/rsuite/schema-typed) for data modeling ,Using React hook for Building material forms.
 
 ## Installation
 
 ```
-npm install hookFormX --save
+npm install hookformx --save
 ```
 
 ## Usage
 
 ```js
-import { SchemaModel, StringType, DateType, NumberType, useFormX } from 'hookFormX';
+import { SchemaModel, StringType, DateType, NumberType, useFormx } from 'hookformx';
 
 const loginFormSchema = SchemaModel({
   account:StringType().isRequired('account required ').minLength(3, 'should not be less than 3').checkOnChange(),
-  pwd:StringType().isRequired('password required').maxLength(20, 'pwd do not need be greater than 20').checkOnBlur().checkOnBlur()
+  pwd:StringType().isRequired('password required').maxLength(20, 'pwd do not need be greater than 20').checkOnBlur()
 });
 
 const checkResult = loginFormSchema.check({
@@ -40,7 +40,7 @@ console.log(checkResult);
 
 ```js
 const login = () => {
-  const { useInput, isValid } = useFormX({
+  const { useInput, isValid } = useFormx({
     account:'test',
     pwd:'test'
     }, loginFormSchema,() = {
@@ -54,16 +54,19 @@ const login = () => {
   )
 }
 ```
- the useFormX hook have three params:first initial value, the second param is schema type have define above,the third param is a callback function.
- the return useFormX is :{
+ the useFormx hook have three params:first initial value, the second param is schema type have define above,the third param is a callback function.
+ the return useFormX is :
+ ```js
+ {
     values, //form values
     useInput,
     errors, //form current errors
     isValid,  //use for disable submitbutton
     handleSubmit //callback function when the form submit
   }
+  ```
 
-
+```js
   the return useInput is :{
     value,          // field value
     required,       // required?
@@ -74,9 +77,10 @@ const login = () => {
     onBlur:         // default onBlur function
     onChange:       // default onChange function
   }
+```
 
 ## More About Verification
-- read [Schema-Typed](https://github.com/rsuite/schema-typed) for more help
+- Read [Schema-Typed](https://github.com/rsuite/schema-typed) for more help
 
 it just add validateOnBlur,validateOnChange property on Type it's very usable to describe the schema of the form for the special use, and add errors property hasError is very useful for disable the button
  
