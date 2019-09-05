@@ -68,16 +68,15 @@ function useFormInput(
   }, [handleError, name, validateSchema, validateStyle, values]);
 
   const handleBlur = useCallback((event) => {
-    if (error.errorMessage !== errors[name].errorMessage) {
-      setError(errors[name]);
-    } else if (validateStyle === 'blur') {
-      const err = validateSchema.checkForField(name, event.currentTarget.value, values.current);
-      if (err.errorMessage !== errors[name].errorMessage) {
-        setError(err);
-        handleError(name, err);
-      }
+    let err;
+    if (validateStyle === 'blur') {
+      err = validateSchema.checkForField(name, event.currentTarget.value, values.current);
     }
-  }, [error.errorMessage, errors, handleError, name, validateSchema, validateStyle, values]);
+    if (err.errorMessage !== errors[name].errorMessage) {
+      setError(err);
+      handleError(name, err);
+    }
+  }, [errors, handleError, name, validateSchema, validateStyle, values]);
 
   const handleFocus = useCallback(() => {
     !isTouched.current[name] && (isTouched.current[name] = true);
@@ -90,7 +89,7 @@ function useFormInput(
     defaultValue: defaultValues[name],
     onFocus: handleFocus,
     error: isTouched.current[name] && error.hasError,
-    helperText: error.errorMessage,
+    helperText: isTouched.current[name] ? error.errorMessage: '',
     onBlur: handleBlur,
     onChange: handleChange
   }
