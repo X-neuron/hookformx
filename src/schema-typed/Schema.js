@@ -26,7 +26,7 @@ export class Schema {
     const checkResult = { hasError:false };
     Object.keys(this.schema).forEach(key => {
       checkResult[key] = this.checkForField(key, data[key], data);
-      checkResult.hasError === false && (checkResult.hasError = checkResult[keys[i]].hasError);
+      checkResult.hasError === false && (checkResult.hasError = checkResult[key].hasError);
     });
     return checkResult;
   }
