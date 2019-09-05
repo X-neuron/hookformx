@@ -26,7 +26,7 @@ export function useFormx(defaultValues, validateSchema, submitCallback) {
     setErrors({ ...errors, hasError, [name]:error });
   }, [errors, validateSchema]);
 
-  const useInput = (name) => useFormInput(name, defaultValues, validateSchema, formValues, handleError, isTouched, errors);
+  const useInput = (name, validateStyle) => useFormInput(name, validateStyle, defaultValues, validateSchema, formValues, handleError, isTouched, errors);
 
   return {
     values: formValues,
@@ -39,6 +39,7 @@ export function useFormx(defaultValues, validateSchema, submitCallback) {
 
 function useFormInput(
   name,
+  validateStyle,
   defaultValues,
   validateSchema,
   values,
@@ -58,25 +59,25 @@ function useFormInput(
     if (values.current[name] !== event.currentTarget.value) {
       values.current[name] = event.currentTarget.value;
       setValue(event.currentTarget.value);
-      if (defSchema.current.field.validateOnChange) {
+      if (validateStyle === 'change') {
         const err = validateSchema.checkForField(name, event.currentTarget.value, values.current);
         setError(err);
         handleError(name, err);
       }
     }
-  }, [handleError, name, validateSchema, values]);
+  }, [handleError, name, validateSchema, validateStyle, values]);
 
   const handleBlur = useCallback((event) => {
     if (error.errorMessage !== errors[name].errorMessage) {
       setError(errors[name]);
-    } else if (defSchema.current.field.validateOnBlur) {
+    } else if (validateStyle === 'blur') {
       const err = validateSchema.checkForField(name, event.currentTarget.value, values.current);
       if (err.errorMessage !== errors[name].errorMessage) {
         setError(err);
         handleError(name, err);
       }
     }
-  }, [error.errorMessage, errors, handleError, name, validateSchema, values]);
+  }, [error.errorMessage, errors, handleError, name, validateSchema, validateStyle, values]);
 
   const handleFocus = useCallback(() => {
     !isTouched.current[name] && (isTouched.current[name] = true);

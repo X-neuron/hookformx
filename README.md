@@ -14,8 +14,8 @@ npm install hookformx --save
 import { SchemaModel, StringType, DateType, NumberType, useFormx } from 'hookformx';
 
 const loginFormSchema = SchemaModel({
-  account:StringType().isRequired('account required ').minLength(3, 'should not be less than 3').checkOnChange(),
-  pwd:StringType().isRequired('password required').maxLength(20, 'pwd do not need be greater than 20').checkOnBlur()
+  account:StringType().isRequired('account required ').minLength(3, 'should not be less than 3'),
+  pwd:StringType().isRequired('password required').maxLength(20, 'pwd do not need be greater than 20')
 });
 
 const checkResult = loginFormSchema.check({
@@ -48,8 +48,8 @@ const login = () => {
       console.log(errors)
       });
   return (
-    <TextField {...useInput('account')} />
-    <TextField {...useInput('pwd')} />
+    <TextField {...useInput('account','change')} />
+    <TextField {...useInput('pwd','blur')} />
     <Button color="primary" variant="contained" disabled={isValid}>  login  </Button>
   )
 }
@@ -82,7 +82,7 @@ the return useInput is :
 ## More About Verification
 - Read [Schema-Typed](https://github.com/rsuite/schema-typed) for more help
 
-it just add validateOnBlur,validateOnChange property on Type it's very usable to describe the schema of the form for the special use, and add errors property hasError is very useful for disable the button
+it add errors property hasError is very useful for disable the button
  
 
 
