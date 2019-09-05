@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 
-export function useFormX(defaultValues, validateSchema, submitCallback) {
+export function useFormx(defaultValues, validateSchema, submitCallback) {
   // we using useRef to store the formValues,when the values change, it does'nt infulence others for performance reason
   // const [values, setValues] = useState(defaultValues);
   const formValues = useRef(defaultValues);
