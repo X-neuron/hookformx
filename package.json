@@ -1,6 +1,6 @@
 {
   "name": "hookformx",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "using shecma-typed and react hook to build material form",
   "main": "lib/index.js",
   "scripts": {

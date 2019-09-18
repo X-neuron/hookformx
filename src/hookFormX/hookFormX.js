@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
+import errorMessage from '../schema-typed/NumberType';
 
 export function useFormx(defaultValues, validateSchema, submitCallback) {
   // we using useRef to store the formValues,when the values change, it does'nt infulence others for performance reason
@@ -72,7 +73,7 @@ function useFormInput(
     if (validateStyle === 'blur') {
       err = validateSchema.checkForField(name, event.currentTarget.value, values.current);
     }
-    if (err.errorMessage !== errors[name].errorMessage) {
+    if (err && err.errorMessage !== errors[name].errorMessage) {
       setError(err);
       handleError(name, err);
     }
@@ -81,7 +82,6 @@ function useFormInput(
   const handleFocus = useCallback(() => {
     !isTouched.current[name] && (isTouched.current[name] = true);
   }, [isTouched, name]);
-
 
   return {
     value,
