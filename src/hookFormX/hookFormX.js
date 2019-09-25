@@ -1,7 +1,12 @@
 import { useState, useRef, useCallback } from 'react';
-import errorMessage from '../schema-typed/NumberType';
+import is from './is';
 
-export function useFormx(defaultValues, validateSchema, submitCallback) {
+const getRealValue = (v) => {
+  if (is.ReactEventObject(v)) return v.currentTarget.value;
+  if (is.Date(v)) return v;
+}
+
+export default function useFormx(defaultValues, validateSchema, submitCallback) {
   // we using useRef to store the formValues,when the values change, it does'nt infulence others for performance reason
   // const [values, setValues] = useState(defaultValues);
   const formValues = useRef(defaultValues);
@@ -51,17 +56,19 @@ function useFormInput(
   // we using useRef to store the formValues,when the values change, it does'nt infulence others
   const [value, setValue] = useState(defaultValues[name]);
   const [error, setError] = useState({ hasError:false, errorMessage:'' });
+
   const defSchema = useRef({
     required: validateSchema.getFieldType(name).required,
     field:validateSchema.getFieldType(name)
   });
 
   const handleChange = useCallback((event) => {
-    if (values.current[name] !== event.currentTarget.value) {
-      values.current[name] = event.currentTarget.value;
-      setValue(event.currentTarget.value);
+    const CurValue = getRealValue(event);
+    if (values.current[name] !== CurValue) {
+      values.current[name] = CurValue;
+      setValue(CurValue);
       if (validateStyle === 'change') {
-        const err = validateSchema.checkForField(name, event.currentTarget.value, values.current);
+        const err = validateSchema.checkForField(name, CurValue, values.current);
         setError(err);
         handleError(name, err);
       }
@@ -70,8 +77,9 @@ function useFormInput(
 
   const handleBlur = useCallback((event) => {
     let err;
+    const CurValue = getRealValue(event);
     if (validateStyle === 'blur') {
-      err = validateSchema.checkForField(name, event.currentTarget.value, values.current);
+      err = validateSchema.checkForField(name, CurValue, values.current);
     }
     if (err && err.errorMessage !== errors[name].errorMessage) {
       setError(err);
@@ -94,4 +102,5 @@ function useFormInput(
     onChange: handleChange
   }
 }
+
 
