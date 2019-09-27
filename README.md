@@ -1,7 +1,7 @@
 # hookformx
 
 Using [Schema-Typed](https://github.com/rsuite/schema-typed) for data modeling ,Using React hook for Building material forms.
-support TextField、Date/Time Seclects CheckBoxes Material Component 
+support TextField、Date/Time、Seclects、Checkboxes、RadioGroup、Switches  Material Component 
 <img src="https://i.loli.net/2019/09/25/9xQUVJXmiaEGbfW.gif" />
 ## Installation
 

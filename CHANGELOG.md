@@ -1,7 +1,7 @@
 
 0.1.1 / 2019-09-27
 ==================
-  * add suport Material CheckBoxes、Selects
+  * add suport Material Seclects、Checkboxes、RadioGroup、Switches  Material Component 
 
 0.1.0 / 2019-09-25
 ==================
