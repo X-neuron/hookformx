@@ -2,11 +2,12 @@ import { useState, useRef, useCallback } from 'react';
 import is from './is';
 
 const getRealValue = (v) => {
+  if (is.ReactCheckCom(v)) return v.currentTarget.checked;
   if (is.ReactEventObject(v)) return v.currentTarget.value;
   if (is.Date(v)) return v;
 }
 
-export default function useFormx(defaultValues, validateSchema, submitCallback) {
+export function useFormx(defaultValues, validateSchema, submitCallback) {
   // we using useRef to store the formValues,when the values change, it does'nt infulence others for performance reason
   // const [values, setValues] = useState(defaultValues);
   const formValues = useRef(defaultValues);
@@ -56,13 +57,17 @@ function useFormInput(
   // we using useRef to store the formValues,when the values change, it does'nt infulence others
   const [value, setValue] = useState(defaultValues[name]);
   const [error, setError] = useState({ hasError:false, errorMessage:'' });
-
+  // check whether need to export check property
+  // const [isChecked, setIsChecked] = useState(false);
+  const isChecked = useRef('$');
   const defSchema = useRef({
     required: validateSchema.getFieldType(name).required,
     field:validateSchema.getFieldType(name)
   });
 
   const handleChange = useCallback((event) => {
+    // console.log(event);
+    is.ReactCheckCom(event) ? isChecked.current = 'ed' : '$'
     const CurValue = getRealValue(event);
     if (values.current[name] !== CurValue) {
       values.current[name] = CurValue;
@@ -93,6 +98,7 @@ function useFormInput(
 
   return {
     value,
+    [`check${isChecked.current}`]: value,
     required: defSchema.current.required,
     defaultValue: defaultValues[name],
     onFocus: handleFocus,

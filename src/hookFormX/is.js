@@ -36,5 +36,6 @@ is.Function = (v) => {
 }
 
 is.ReactEventObject = (v) => is.Function(v.isPropagationStopped)
+is.ReactCheckCom = (v) => is.Bool(v.currentTarget.checked)
 
 export default is;
