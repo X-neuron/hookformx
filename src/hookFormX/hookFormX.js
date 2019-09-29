@@ -2,12 +2,15 @@ import { useState, useRef, useCallback } from 'react';
 import is from './is';
 
 const getRealValue = (v) => {
-  if (is.ReactCheckCom(v)) return v.currentTarget.checked;
-  if (is.ReactEventObject(v)) return v.currentTarget.value;
+  // if (is.ReactEventObject(v)) return v.currentTarget.value;
   if (is.Date(v)) return v;
+  const { target } = v;
+  return target.type === 'checkbox' ? target.checked : target.value
 }
 
-export function useFormx(defaultValues, validateSchema, submitCallback) {
+const capitalize = (s) => s && s[0].toUpperCase() + s.slice(1);
+
+export default function useFormx(defaultValues, validateSchema, submitCallback) {
   // we using useRef to store the formValues,when the values change, it does'nt infulence others for performance reason
   // const [values, setValues] = useState(defaultValues);
   const formValues = useRef(defaultValues);
@@ -57,6 +60,7 @@ function useFormInput(
   // we using useRef to store the formValues,when the values change, it does'nt infulence others
   const [value, setValue] = useState(defaultValues[name]);
   const [error, setError] = useState({ hasError:false, errorMessage:'' });
+  validateStyle = capitalize(validateStyle);
   // check whether need to export check property
   // const [isChecked, setIsChecked] = useState(false);
   const isChecked = useRef('$');
@@ -66,35 +70,30 @@ function useFormInput(
   });
 
   const handleChange = useCallback((event) => {
-    // console.log(event);
-    is.ReactCheckCom(event) ? isChecked.current = 'ed' : '$'
+    is.ReactEventCheckBox(event) ? isChecked.current = 'ed' : '$';
     const CurValue = getRealValue(event);
     if (values.current[name] !== CurValue) {
       values.current[name] = CurValue;
       setValue(CurValue);
-      if (validateStyle === 'change') {
-        const err = validateSchema.checkForField(name, CurValue, values.current);
-        setError(err);
-        handleError(name, err);
-      }
-    }
-  }, [handleError, name, validateSchema, validateStyle, values]);
-
-  const handleBlur = useCallback((event) => {
-    let err;
-    const CurValue = getRealValue(event);
-    if (validateStyle === 'blur') {
-      err = validateSchema.checkForField(name, CurValue, values.current);
-    }
-    if (err && err.errorMessage !== errors[name].errorMessage) {
+      const err = validateSchema.checkForField(name, CurValue, values.current);
       setError(err);
       handleError(name, err);
     }
-  }, [errors, handleError, name, validateSchema, validateStyle, values]);
+  }, [handleError, name, validateSchema, values]);
+
+  const handleBlur = useCallback((event) => {
+    const CurValue = getRealValue(event);
+    const err = validateSchema.checkForField(name, CurValue, values.current);
+    if (err.errorMessage !== errors[name].errorMessage) {
+      setError(err);
+      handleError(name, err);
+    }
+  }, [errors, handleError, name, validateSchema, values]);
 
   const handleFocus = useCallback(() => {
     !isTouched.current[name] && (isTouched.current[name] = true);
   }, [isTouched, name]);
+
 
   return {
     value,
@@ -104,8 +103,7 @@ function useFormInput(
     onFocus: handleFocus,
     error: isTouched.current[name] && error.hasError,
     helperText: isTouched.current[name] ? error.errorMessage: '',
-    onBlur: handleBlur,
-    onChange: handleChange
+    [`on${validateStyle}`]: validateStyle === 'Change' ? handleChange : handleBlur
   }
 }
 

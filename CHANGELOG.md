@@ -1,3 +1,7 @@
+0.1.3 / 2019-09-29
+==================
+  * fix bugs for checkbox switch event check.
+  * Optimize unnecessary events
 
 0.1.1 / 2019-09-27
 ==================
@@ -10,4 +14,4 @@
 
 0.0.13 / 2019-09-17
 ==================
-  * fix lots of bugs , it really can use edition for material textfiled
+  * fix lots of bugs , it really can be used edition for material textfiled

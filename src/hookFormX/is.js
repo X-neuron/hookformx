@@ -35,7 +35,13 @@ is.Function = (v) => {
   return str === '[object Function]' || str === '[object GeneratorFunction]' || str === '[object AsyncFunction]';
 }
 
-is.ReactEventObject = (v) => is.Function(v.isPropagationStopped)
-is.ReactCheckCom = (v) => is.Bool(v.currentTarget.checked)
+is.ReactEventObject = (v) => is.Function(v.isPropagationStopped);
+
+is.ReactEventCheckBox = (v) => {
+  if (is.ReactEventObject(v)) {
+    const { target } = v;
+    return target.type === 'checkbox'
+  }
+}
 
 export default is;
