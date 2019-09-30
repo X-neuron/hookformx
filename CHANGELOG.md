@@ -1,3 +1,7 @@
+0.1.4 / 2019-09-30
+==================
+  * adjust export formValues
+
 0.1.3 / 2019-09-29
 ==================
   * fix bugs for checkbox switch event check.
